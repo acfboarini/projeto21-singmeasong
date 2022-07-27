@@ -1,14 +1,15 @@
 import { faker } from "@faker-js/faker";
-import { agent } from "../app.test.js";
+import { prisma } from "../../src/database.js";
 
 export async function createRecommendation() {
-    const recommendation = {
+    const recommendationData = {
         name: faker.music.songName(),
         youtubeLink: faker.internet.url()
     }
 
-    const result = await agent.post("/recommendations").send(recommendation);
-    expect(result.statusCode).toEqual(201);
+    const recommendation = await prisma.recommendation.create({
+        data: recommendationData
+    });
 
     return recommendation;
 }
