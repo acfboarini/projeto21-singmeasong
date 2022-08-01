@@ -8,10 +8,9 @@
     "build": "tsc",
     "start": "node src/server.ts",
     "dev": "nodemon src/server.ts",
-    "test": "dotenv -e .env.test prisma migrate dev && NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest -i"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "test:integration": "dotenv -e .env.test prisma migrate dev && NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest -i",
+    "test:unit": "dotenv",
+    "test:cy": ""
   },
   "keywords": [],
   "author": "",
