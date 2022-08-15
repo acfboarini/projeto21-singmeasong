@@ -1,10 +1,15 @@
+/* eslint-disable no-undef */
 /// <reference types="cypress" />
 
 //import { faker } from "@faker-js/faker";
 
+beforeEach(() => {
+    cy.request("POST", "http://localhost:5000/reset", {}); 
+})
+
 describe("testing e2e", () => {
+
     it ("testing initial page", () => {
-        // eslint-disable-next-line no-undef
-        cy.visit("https://localhost:3000/");
+        cy.visit("http://localhost:3000");
     })
 })
