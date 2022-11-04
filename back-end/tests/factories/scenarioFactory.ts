@@ -5,7 +5,7 @@ export async function deleteAllData() {
 }
 
 export async function createRecommendationsForGetRandom() {
-    return 
+    return
 }
 
 export async function createRecommendationsForGetTop() {
