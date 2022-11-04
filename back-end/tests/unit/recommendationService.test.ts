@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 import { jest } from "@jest/globals";
 import { recommendationRepository } from "../../src/repositories/recommendationRepository.js";
 import { recommendationService } from "../../src/services/recommendationsService.js";
-import { createRecommendation } from "../factories/recommendationFactory";
+import { createRecommendation } from "../factories/recommendationFactory.js";
 
 describe("recommendation test unit test suite", () => {
 
@@ -13,7 +13,7 @@ describe("recommendation test unit test suite", () => {
     it ("should create a recommendation", async () => {
         const recommendation = {
             name: faker.music.songName(),
-            youtubeLink: `www.youtube.com/watch?v=${faker.random.alphaNumeric()}`
+            youtubeLink: `www.youtube.com/watch?v=${faker.random.alphaNumeric(4)}`
         }
 
         jest.spyOn(recommendationRepository, "findByName").mockResolvedValueOnce(null);
