@@ -14,9 +14,7 @@ describe("testing recommendation service...", () => {
 
     beforeEach(async () => {
         jest.clearAllMocks();
-    })
-
-    it ("should create a recommendation", async () => {
+    });
 
     it ("should create recommendation", async () => {
         jest.spyOn(recommendationRepository, "findByName").mockResolvedValueOnce(null);
