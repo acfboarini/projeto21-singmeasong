@@ -13,7 +13,6 @@ export function compareScores(recommendations: Array<any>) {
 }
 
 export function validateScores(recommendations: any[], maxScore: number) {
-    console.log(recommendations);
     recommendations.forEach(recommendation => {
         if (recommendation.socre > maxScore) return false
     });
