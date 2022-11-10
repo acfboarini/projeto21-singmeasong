@@ -2,7 +2,7 @@ import supertest from "supertest";
 import { faker } from "@faker-js/faker";
 import app from "../../src/app.js";
 import { prisma } from "../../src/database.js";
-import { createManyRecommendations, createManyRecommendationsWithScores, createRecommendation } from "../factories/recommendationFactory.js";
+import { createManyRecommendations, createManyRecommendationsWithRandomScores, createRecommendation } from "../factories/recommendationFactory.js";
 import { deleteAllData } from "../factories/scenarioFactory.js";
 import { compareScores } from "../utils/utilFunctions.js";
 
@@ -116,7 +116,7 @@ describe("testing recomendations...", () => {
     });
 
     it ("should return top recommendations order by score desc", async () => {
-        await createManyRecommendationsWithScores();
+        await createManyRecommendationsWithRandomScores();
         const amount = +faker.random.numeric();
 
         const result = await agent.get(`/recommendations/top/${amount}`);
