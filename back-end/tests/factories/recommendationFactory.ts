@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { prisma } from "../../src/database.js";
+import { generateRandomNumberWithinRange } from "../utils/utilFunctions.js";
 
 export async function createRecommendation() {
     const recommendationData = {
@@ -26,7 +27,7 @@ export async function createManyRecommendations() {
     return recommendations;
 }
 
-export async function createManyRecommendationsWithScores() {
+export async function createManyRecommendationsWithRandomScores() {
     const listRecommendation = [];
     for (let i = 0; i < 11; i++) {
         listRecommendation.push({
@@ -38,4 +39,18 @@ export async function createManyRecommendationsWithScores() {
     await prisma.recommendation.createMany({
         data: listRecommendation 
     });
+}
+
+export function createManyRecommendationsLessThanMaxScore(maxScore: number) {
+    const listRecommendation = [];
+    for (let i = 0; i < 11; i++) {
+        const score = generateRandomNumberWithinRange(-5, maxScore);
+        listRecommendation.push({
+            id: (i + 1),
+            name: faker.music.songName(),
+            youtubeLink: `www.youtube.com/watch?v=${faker.random.alphaNumeric(4)}`,
+            score,
+        })
+    };
+    return listRecommendation;
 }

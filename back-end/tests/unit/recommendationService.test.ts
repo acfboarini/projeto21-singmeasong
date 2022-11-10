@@ -2,6 +2,8 @@ import { faker } from "@faker-js/faker";
 import { jest } from "@jest/globals";
 import { recommendationRepository } from "../../src/repositories/recommendationRepository.js";
 import { recommendationService } from "../../src/services/recommendationsService.js";
+import { createManyRecommendationsLessThanMaxScore } from "../factories/recommendationFactory.js";
+import { validateScores } from "../utils/utilFunctions.js";
 
 jest.mock("../../src/repositories/recommendationRepository.js");
 
@@ -47,7 +49,7 @@ describe("testing recommendation service...", () => {
             score: 0,    
             ...recommendation
         })
-        jest.spyOn(recommendationRepository, "updateScore")//.mockImplementationOnce((): any => {});
+        jest.spyOn(recommendationRepository, "updateScore");
 
         await recommendationService.upvote(3);
         expect(recommendationRepository.updateScore).toHaveBeenCalledTimes(1);
@@ -70,5 +72,31 @@ describe("testing recommendation service...", () => {
         await recommendationService.downvote(3);
         expect(recommendationRepository.updateScore).toHaveBeenCalledTimes(1);
         expect(recommendationRepository.remove).toHaveBeenCalledTimes(1);
+    });
+
+    it ("shouldn't return recommendation because not found music", async () => {
+        jest.spyOn(recommendationRepository, "findAll").mockResolvedValue([]);
+        try {
+            await recommendationService.getRandom();
+        } catch (error) {
+            expect(error.type).toEqual("not_found");
+        }
+    });
+
+    it ("should return any random recommendation because only exist scores < 10 or >= 10", async () => {
+        const recommendations = createManyRecommendationsLessThanMaxScore(9);
+        jest.spyOn(recommendationRepository, "findAll").mockResolvedValue(recommendations);
+
+        const listRecommendations = [];
+        for (let i = 0; i < 5; i++) {
+            const recommendation = await recommendationService.getRandom();
+            listRecommendations.push(recommendation);
+        }
+        const validate = validateScores(listRecommendations, 9);
+        expect(validate).toBeTruthy();
+    });
+
+    afterAll(() => {
+        jest.resetAllMocks();
     })
 })
