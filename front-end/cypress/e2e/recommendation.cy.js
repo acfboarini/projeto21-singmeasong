@@ -11,5 +11,5 @@ describe("testing e2e", () => {
 
     it ("testing initial page", () => {
         cy.visit("http://localhost:3000");
-    })
+    });
 })
